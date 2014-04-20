@@ -6,27 +6,38 @@ import (
     "log"
     "os"
     "strings"
+    "strconv"
+    "net/http"
 )
 
-func Process(path string) string {
-    // open "test.jpg"
-    file, err := os.Open(path)
+func Process(url string, width string) string {
+    // convert the width string to a uint
+    i, err := strconv.Atoi(width)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    iWidth := uint(i)
+    //iWidth := uint(width[1])
+
+    // get the file from remote
+    resp, err := http.Get(url)
     if err != nil {
         log.Fatal(err)
     }
 
     // decode jpeg into image.Image
-    img, err := jpeg.Decode(file)
+    img, err := jpeg.Decode(resp.Body)
     if err != nil {
         log.Fatal(err)
     }
-    file.Close()
+    resp.Body.Close()
 
     // resize to width 1000 using Lanczos resampling
     // and preserve aspect ratio
-    m := resize.Resize(100, 0, img, resize.Lanczos3)
+    m := resize.Resize(iWidth, 0, img, resize.Lanczos3)
 
-    output := path + "-resized.jpg"
+    output := "public/storms-resized.jpg"
 
     out, err := os.Create(output)
     if err != nil {
@@ -37,5 +48,5 @@ func Process(path string) string {
     // write new image to file
     jpeg.Encode(out, m, nil)
 
-    return strings.TrimPrefix(output, "public/")
+    return "http://localhost:3000/" + strings.TrimPrefix(output, "public/")
 }
