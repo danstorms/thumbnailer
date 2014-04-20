@@ -1,0 +1,29 @@
+{
+	"ImportPath": "thumbnailer",
+	"GoVersion": "go1.2.1",
+	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Rev": "9aea7a2fa5b79ef7fc00f63a575e72df33b4e886"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/martini",
+			"Comment": "v0.1-153-gbaa4221",
+			"Rev": "baa42219288cdd775874794381aa987144012263"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/martini-contrib/binding",
+			"Comment": "v0.1-159-g8ce6181",
+			"Rev": "8ce6181c2609699e4c7cd30994b76a850a9cdadc"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/martini-contrib/render",
+			"Comment": "v0.1-159-g8ce6181",
+			"Rev": "8ce6181c2609699e4c7cd30994b76a850a9cdadc"
+		},
+		{
+			"ImportPath": "github.com/nfnt/resize",
+			"Rev": "8aee0d995b6511c4b52187d9b5b7f4da05bbae0b"
+		}
+	]
+}
