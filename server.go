@@ -1,20 +1,35 @@
 package main
 
-import "github.com/go-martini/martini"
-import "thumbnailer/nailer"
+import (
+	"github.com/codegangsta/martini"
+	"github.com/codegangsta/martini-contrib/binding"
+	"github.com/codegangsta/martini-contrib/render"
+	"thumbnailer/nailer"
+)
+
+type ImageUrl struct {
+  Url 		string `form:"url"`
+  Width		string `form:"width"`
+}
 
 func main() {
   m := martini.Classic()
-  m.Get("/resize/:size", func(params martini.Params) string {
+  m.Use(render.Renderer())
 
-  	url := "http://localhost:3000/storms.jpg"
-
-    return "<html><body>" +
-						"<h1>Original</h1>" +
-						"<img src='" + url + "'>" +
-						"<h1>Thumbnailed</h1>" +
-						"<img src='" + nailer.Process(url, params["size"]) + "'>" +
-						"</body></html>"
+  m.Get("/resize", func(r render.Render) {
+  	r.HTML(200, "size", nil)
   })
+
+  m.Post("/resize", binding.Form(ImageUrl{}), func(imageUrl ImageUrl, r render.Render) {
+  	if imageUrl.Url == "" {
+  		// TODO: Return an error msg
+  	} else if imageUrl.Width == "" {
+  		// TODO: Return an error msg
+  	} else {
+    	nailer.Thumbnail(imageUrl.Url, imageUrl.Width)
+    }
+    r.HTML(200, "size", nil)
+  })
+
   m.Run()
 }

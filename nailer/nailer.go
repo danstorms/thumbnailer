@@ -10,7 +10,7 @@ import (
     "net/http"
 )
 
-func Process(url string, width string) string {
+func Thumbnail(url string, width string) string {
     // convert the width string to a uint
     i, err := strconv.Atoi(width)
     if err != nil {
@@ -37,7 +37,7 @@ func Process(url string, width string) string {
     // and preserve aspect ratio
     m := resize.Resize(iWidth, 0, img, resize.Lanczos3)
 
-    output := "public/storms-resized.jpg"
+    output := "public/resized.jpg"
 
     out, err := os.Create(output)
     if err != nil {
